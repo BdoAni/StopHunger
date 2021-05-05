@@ -1,0 +1,41 @@
+@model List<Product>
+@using StopHunger.Models
+
+@{
+  ViewData["Title"] = "All Donations";
+}
+@{
+    ViewData["Title"] = "Donution Details";
+    int? uid = @Context.Session.GetInt32("UserId");
+}
+
+<h2 class="text-center">All Products for Donation</h2>
+<div>
+@foreach (Product product in Model)
+{
+  @* bool isAlreadyDonate = Model.Products.Any(d => d.UserId == Context.Session.GetInt32("UserId")); *@
+  <div class="p-3 border rounded w-50 mx-auto mb-3">
+    <h3>
+          <a asp-controller="Product" asp-action="Details" asp-route-productId="@product.ProductId">@product.Name</a>
+    </h3>
+      <small>Donated by: @product.CreatedBy.FullName()</small>
+      <p>@product.Description</p>
+      <p>@product.Quantity</p>
+      <p>$@Math.Round(product.Price, 2)</p>
+      <p>@product.Categorie</p>
+      @* <p>@product.Donations.Count</p> *@
+  </div>
+@* <form asp-controller="Product" asp-action="Donate" asp-route-productId="@product.ProductId" method="POST">
+    <button class="btn btn-sm btn-outline-secondary">
+        @if (isAlreadyDonate)
+        {
+            <span>future Donation</span>
+        }
+        else
+        {
+            <span>Donate</span>
+        }
+    </button>
+</form> *@
+}
+</div>

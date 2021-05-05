@@ -1,0 +1,45 @@
+@model ShelterInfoType
+
+@{
+    ViewData["Title"] = "New Donation Destination";
+}
+
+<div class="w-50 mx-auto">
+    <h2 class="text-center">New Donation Destination</h2>
+
+    <form asp-controller="ShelterInfoType" asp-action="Create" method="POST">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <span asp-validation-for="Name" class="text-danger font-weight-bold"></span>
+            <input asp-for="Name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label asp-for="Location"></label>
+            <span asp-validation-for="Location" class="text-danger font-weight-bold"></span>
+            <input asp-for="Location" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Src"></label>
+            <span asp-validation-for="Src" class="text-danger font-weight-bold"></span>
+            <input asp-for="Src" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Type"></label>
+            <span asp-validation-for="Type" class="text-danger font-weight-bold"></span>
+            <select asp-for="Type" class="form-control">
+                <option value="Image">Image</option>
+                @* <option value="Youtube Embed">Youtube Embed</option> *@
+                <option value="Google Maps Embed">Google Maps Embed</option>
+                <option value="Website Embed">Website Embed</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="ShortDescription"></label>
+            <span asp-validation-for="ShortDescription" class="text-danger font-weight-bold"></span>
+            <textarea asp-for="ShortDescription" class="form-control" cols="30" rows="5"></textarea>
+        </div>
+        <button class="btn btn-sm btn-outline-success">Submit</button>
+    </form>
+</div>

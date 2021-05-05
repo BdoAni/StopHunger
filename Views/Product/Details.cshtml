@@ -1,0 +1,92 @@
+@model Product
+
+@{
+    ViewData["Title"] = "Donution Details";
+    int? uid = @Context.Session.GetInt32("UserId");
+}
+
+
+
+<div class="w-100 mx-auto">
+    <h1>Product Details - @Model.Name</h1>
+    
+<h4> Product Donation Date: @Model.Date | Hope Maker: @Model.CreatedBy.FullName()</h4>
+    
+    <div>
+        @if (@Model.UserId == uid)
+        {
+            <a asp-controller="Product" asp-action="Edit" asp-route-productId="@Model.ProductId"
+            class="btn btn-sm btn-outline-warning">
+                Edit
+            </a>
+
+            @* Delete could be a GET request, but POST is better practice *@
+            <form asp-controller="Product" asp-action="Delete" asp-route-productId="@Model.ProductId" method="POST"
+            class="d-inline-block">
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+        }
+    </div>
+    <small>@Model.Description</small>
+    <p class="mt-3 mb-0">Add Destination</p>
+
+    @{
+        ProductDonutionToShelter newDonation = new ProductDonutionToShelter()
+        {
+            ProductId = @Model.ProductId
+        };
+    }
+
+    <partial name="_AddDonation" model="newDonation"/>
+
+    @foreach (ProductDonutionToShelter productDon in Model.ProductDonutions)
+    {
+        ShelterInfoType donatInfo = productDon.ShelterInfoType;
+
+        <div class="w-75 mx-auto">
+            <hr class="bg-info">
+
+                <small>@donatInfo.Location - @donatInfo.ShortDescription</small>
+
+            @if (@donatInfo.Type == "Image")
+            {
+                                <img src="@donatInfo.Src" alt="@donatInfo.ShortDescription" width="100%">
+            }
+            else if (@donatInfo.Type == "Youtube Embed")
+            {
+                                <iframe width="100%" height="800" src="@donatInfo.Src" title="@donatInfo.ShortDescription" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+            }
+            else
+            {
+                                <iframe title="@donatInfo.ShortDescription" src="@donatInfo.Src" width="100%" height="800" style="border:0;"
+            allowfullscreen="" loading="lazy"></iframe>
+            }
+        </div>
+    }
+    @* <form asp-controller="Product" asp-action="Donate" asp-route-productId="@Model.ProductId" method="POST"> *@
+@* @{
+    bool isAlreadyDonate = Model.UserProduuctDonation.Any(d => d.UserId == Context.Session.GetInt32("UserId"));
+
+    @* Could also do this and check if it's null *@
+    @* UserLikesPosts existingLike = Model.Likes.FirstOrDefault(like => like.UserId == Context.Session.GetInt32("UserId"));
+    *@
+@* }
+@foreach(var isRelated in Models.Products)
+{
+
+  <button class="btn btn-sm btn-outline-secondary">
+        @if (isRelated)
+        {
+            <span>future Donation</span>
+        }
+        else
+        {
+            <span>Donate</span>
+        }
+    </button>
+    }
+  
+</form> *@ 
+</div>

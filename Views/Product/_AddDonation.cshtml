@@ -1,0 +1,12 @@
+@* For creating a new many to many relationship between Product and Shelter *@
+@model ProductDonutionToShelter
+
+<form asp-controller="Product" asp-action="AddDonation" asp-route-productId="@Model.ProductId" method="POST">
+    <select asp-for="ShelterInfoTypeId" class="form-control">
+        @foreach (ShelterInfoType donat in ViewBag.UnrelatedDonations)
+        {
+                        <option value="@donat.ShelterInfoTypeId">@donat.Location - @donat.ShortDescription</option>
+        }
+    </select>
+    <button class="btn btn-sm btn-outline-secondary mt-1">Add</button>
+</form>
